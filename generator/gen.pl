@@ -46,13 +46,7 @@ fd_domain([N| Ns], Min, Max) :-
     N in Min..Max,
     fd_domain(Ns, Min, Max).
 
-def_use(T, N) :-
-    varlist(N, Keys),
-    Max #= N - 1, 
-    fd_domain(Keys, 0, Max), 
-    tree(T, N, Keys, []),
-    real_well_form(T),
-    label(Keys), 
+def_use(T) :-
     foreach((vis(S,T), =(S, t(n(K, use), _, _))), 
         (vis(R,T), =(R, t(n(K, def), _, _)), vis(S, R))).
 
@@ -68,6 +62,15 @@ well_form(t(n(_, block), L, R)) :-
 
 real_well_form(t(n(0, block), L, R)) :-
     well_form(L), well_form(R).
+
+generator(T, N) :-
+    varlist(N, Keys),
+    Max #= N - 1, 
+    fd_domain(Keys, 0, Max), 
+    tree(T, N, Keys, []),
+    real_well_form(T),
+    label(Keys), 
+    def_use(T).
 
 % def_use(nil, _).
 % def_use(t(n(X, use), _, _), Xs) :-
