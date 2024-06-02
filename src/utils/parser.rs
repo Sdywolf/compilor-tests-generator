@@ -1,6 +1,5 @@
 use lalrpop_util::lalrpop_mod;
-use std::io;
-use crate::utils::ast::{Tree, Node, Class};
+use crate::utils::ast::Tree;
 
 lalrpop_mod!(parser);
 

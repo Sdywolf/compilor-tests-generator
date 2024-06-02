@@ -7,13 +7,13 @@ pub enum Class {
 
 #[derive(Copy, Clone)]
 pub struct Node {
-    id : i32, 
-    class : Class
+    pub id : i32, 
+    pub class : Class
 }
 
 #[derive(Clone)]
 pub struct Tree {
-    node : Node, 
-    ltree : Box<Tree>, 
-    rtree : Box<Tree>
+    pub node : Node, 
+    pub ltree : Box<Tree>, 
+    pub rtree : Box<Tree>
 }

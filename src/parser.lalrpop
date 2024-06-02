@@ -1,6 +1,4 @@
-use std::str::FromStr;
 use crate::utils::ast::{Class, Node, Tree};
-use 
 
 grammar;
 
@@ -15,14 +13,14 @@ pub Start : Tree = {
 }
 
 pub Tree : Tree = {
-  "t(" <node : Node> <ltree : Tree> <rtree : Tree> ")" => {
-    Tree{node, Box<Tree>::new(ltree), Box<Tree>::new(rtree)}
+  "t(" <node : Node> "," <ltree : Tree> "," <rtree : Tree> ")" => {
+    Tree{node, ltree : Box::new(ltree), rtree : Box::new(rtree)}
   }
 }
 
 pub Node : Node = {
-  "n(" <num : Number> <class : Class> ")" => {
-    Node{num : id, class}
+  "n(" <num : Number> "," <class : Class> ")" => {
+    Node{id : num, class}
   }
 }
 
