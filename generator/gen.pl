@@ -63,6 +63,10 @@ well_form(t(n(_, block), L, R)) :-
 real_well_form(t(n(0, block), L, R)) :-
     well_form(L), well_form(R).
 
+is_subtree(T, T).
+is_subtree(T, t(_, L, R)) :-
+    is_subtree(T, L); is_subtree(T, R).
+
 generator(T, N) :-
     varlist(N, Keys),
     Max #= N - 1, 
