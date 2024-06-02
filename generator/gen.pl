@@ -12,6 +12,8 @@ in(X, Min, Max) :-
 node(n(K, use), K).
 node(n(K, def), K).
 node(n(0, block), 0).
+node(n(0, loop), 0).
+node(n(0, brk), 0).
 
 tree(nil, 0, Ks, Ks).
 tree(t(V, L, R), N, [K| Ks], NKs) :-
@@ -46,14 +48,50 @@ fd_domain([N| Ns], Min, Max) :-
     N in Min..Max,
     fd_domain(Ns, Min, Max).
 
-def_use(T, N) :-
+def_use(T) :-
+    foreach((vis(S,T), S = t(n(K, use), _, _)), 
+        (vis(R,T), R = t(n(K, def), _, _), vis(S, R))).
+
+brk_in_loop(T) :-
+    foreach((vis(S,T), S = t(n(_, brk), _, _)), 
+        (vis(R,T), R = t(n(_, loop), _, _), inL(S, R))).
+
+well_form(nil).
+well_form(t(n(_, use), L, R)) :-
+    L = nil,
+    well_form(R).
+well_form(t(n(_, def), L, R)) :-
+    L = nil, 
+    well_form(R).
+well_form(t(n(_, brk), L, R)) :-
+    L = nil, 
+    well_form(R).
+well_form(t(n(_, block), L, R)) :-
+    well_form(L), well_form(R).
+well_form(t(n(_, loop), L, R)) :-
+    well_form(L), well_form(R).
+
+real_well_form(t(n(0, block), L, R)) :-
+    well_form(L), well_form(R).
+
+is_subtree(T, T).
+is_subtree(T, t(_, L, R)) :-
+    is_subtree(T, L); is_subtree(T, R).
+
+isnt_subtree(T, T) :- false.
+isnt_subtree(_, nil) :- true.
+isnt_subtree(T, t(_, L, R)) :-
+    isnt_subtree(T, L), isnt_subtree(T, R).
+
+generator(T, N) :-
     varlist(N, Keys),
     Max #= N - 1, 
     fd_domain(Keys, 0, Max), 
     tree(T, N, Keys, []),
+    real_well_form(T),
+    brk_in_loop(T),
     label(Keys), 
-    foreach((vis(S,T), =(S, t(n(K, use), _, _))), 
-        (vis(R,T), =(R, t(n(K, def), _, _)), vis(S, R))).
+    def_use(T).
 
 % def_use(nil, _).
 % def_use(t(n(X, use), _, _), Xs) :-
