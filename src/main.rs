@@ -1,6 +1,6 @@
 mod utils;
 
-use utils::parser;
+use utils::{parser, dump};
 
 const ENGINE: &str = include_str!("../generator/gen.pl");
 
@@ -16,8 +16,7 @@ fn main() {
     let code = format!("{ENGINE}\n{QUERY}");
     let result = utils::engine::eval_code(&code);
     // println!("{}", result);
-    input = "t(n(0,def),nil,t(n(0,use),nil,nil))".to_string();
+    // input = "t(n(0,def),nil,t(n(0,use),nil,nil))".to_string();
     let tree = parser::get_tree(&result);
-    dump::dump(&tree);
-    println!("{:?}", tree);
+    println!("{}", dump::dump(&tree));
 }

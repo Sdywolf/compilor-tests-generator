@@ -11,7 +11,7 @@ pub struct Node {
     pub class: Class,
 }
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct Tree {
     pub node : Node, 
     pub ltree : Option<Box<Tree> >, 
