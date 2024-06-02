@@ -2,6 +2,8 @@ mod utils;
 
 use utils::parser;
 
+use crate::utils::printer::SimpleAST;
+
 const ENGINE: &str = include_str!("../generator/gen.pl");
 
 const QUERY: &str = r#"
@@ -15,9 +17,9 @@ mod tests;
 fn main() {
     let code = format!("{ENGINE}\n{QUERY}");
     let result = utils::engine::eval_code(&code);
-    // println!("{}", result);
-    input = "t(n(0,def),nil,t(n(0,use),nil,nil))".to_string();
     let tree = parser::get_tree(&result);
-    dump::dump(&tree);
-    println!("{:?}", tree);
+    let stmts = SimpleAST::from_tree(tree);
+    for stmt in stmts {
+        println!("{}", stmt);
+    }
 }
