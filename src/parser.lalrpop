@@ -8,13 +8,14 @@ match {
   _
 }
 
-pub Start : Tree = {
+pub Start : Option<Box<Tree> > = {
   <tree : Tree> ";" => tree
 }
 
-pub Tree : Tree = {
+pub Tree : Option<Box<Tree> > = {
+  "nil" => None, 
   "t(" <node : Node> "," <ltree : Tree> "," <rtree : Tree> ")" => {
-    Tree{node, ltree : Box::new(ltree), rtree : Box::new(rtree)}
+    Some(Box::new(Tree{node, ltree : ltree, rtree : rtree}))
   }
 }
 

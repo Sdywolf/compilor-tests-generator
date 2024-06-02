@@ -14,6 +14,6 @@ pub struct Node {
 #[derive(Clone)]
 pub struct Tree {
     pub node : Node, 
-    pub ltree : Box<Tree>, 
-    pub rtree : Box<Tree>
+    pub ltree : Option<Box<Tree> >, 
+    pub rtree : Option<Box<Tree> >
 }

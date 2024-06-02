@@ -3,7 +3,7 @@ use crate::utils::ast::Tree;
 
 lalrpop_mod!(parser);
 
-pub fn get_tree(input: &str) -> Tree {
+pub fn get_tree(input: &str) -> Option<Box<Tree> > {
     let tree = parser::TreeParser::new().parse(input).unwrap();
     tree
 }
