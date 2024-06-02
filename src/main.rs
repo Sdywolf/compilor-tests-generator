@@ -1,22 +1,33 @@
 mod utils;
 
-use utils::{parser, dump};
+use crate::utils::printer::SimpleAST;
 
 const ENGINE: &str = include_str!("../generator/gen.pl");
 
 const QUERY: &str = r#"
-main :- def_use(T, 3), portray_clause(T).
+main :- ###QUERY###, portray_clause(T).
 :- initialization(main).
 "#;
 
 #[cfg(test)]
 mod tests;
 
+/// example:
+///
+/// ```text
+/// cargo run -- "def_use(T, 3)"
+/// ```
 fn main() {
-    let code = format!("{ENGINE}\n{QUERY}");
+    let input = std::env::args().nth(1).expect("missing argument");
+    let query = QUERY.replace("###QUERY###", &input);
+    let code = format!("{ENGINE}\n{query}");
+
     let result = utils::engine::eval_code(&code);
-    // println!("{}", result);
-    // input = "t(n(0,def),nil,t(n(0,use),nil,nil))".to_string();
-    let tree = parser::get_tree(&result);
-    println!("{}", dump::dump(&tree));
+    dbg!(&result);
+
+    let tree = utils::parser::get_tree(&result);
+    let stmts = SimpleAST::from_tree(tree);
+    for stmt in stmts {
+        println!("{}", stmt);
+    }
 }

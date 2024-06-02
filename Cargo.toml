@@ -3,10 +3,6 @@ name = "compilor_test_generator"
 version = "0.1.0"
 edition = "2021"
 
-[build-dependencies]
-lalrpop = "0.20.2"
-
 [dependencies]
-lazy_static = "1.4.0"
-lalrpop-util = { version = "0.20.2", features = ["lexer"] }
 scryer-prolog = "0.9.4"
+peg = "0.8.3"
