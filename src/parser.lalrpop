@@ -9,12 +9,14 @@ match {
 }
 
 pub Start : Tree = {
-  <tree : Tree> ";" => tree
+  <tree : Tree> ";" => tree,
+  <tree : Tree> "." => tree
 }
 
 pub Tree : Tree = {
+  "nil" => Tree::Nil,
   "t(" <node : Node> "," <ltree : Tree> "," <rtree : Tree> ")" => {
-    Tree{node, ltree : Box::new(ltree), rtree : Box::new(rtree)}
+    Tree::Node {node, ltree : Box::new(ltree), rtree : Box::new(rtree)}
   }
 }
 
