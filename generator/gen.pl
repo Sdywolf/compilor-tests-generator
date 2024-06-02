@@ -78,6 +78,11 @@ is_subtree(T, T).
 is_subtree(T, t(_, L, R)) :-
     is_subtree(T, L); is_subtree(T, R).
 
+isnt_subtree(T, T) :- false.
+isnt_subtree(_, nil) :- true.
+isnt_subtree(T, t(_, L, R)) :-
+    isnt_subtree(T, L), isnt_subtree(T, R).
+
 generator(T, N) :-
     varlist(N, Keys),
     Max #= N - 1, 
