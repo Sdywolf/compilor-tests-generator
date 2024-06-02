@@ -9,7 +9,8 @@ match {
 }
 
 pub Start : Option<Box<Tree> > = {
-  <tree : Tree> ";" => tree
+  <tree : Tree> ";" => tree,
+  <tree : Tree> "." => tree
 }
 
 pub Tree : Option<Box<Tree> > = {

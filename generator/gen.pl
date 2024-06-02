@@ -4,20 +4,7 @@
 :- use_module(library(debug)).
 :- use_module(library(builtins)).
 :- use_module(library(freeze)).
-
-n_factorial0(0, 1).
-n_factorial0(N, F) :-
-    N #> 0,
-    N1 #= N - 1,
-    n_factorial0(N1, F1),
-    F #= N * F1.
-
-n_factorial(0, 1).
-n_factorial(N, F) :-
-    N #> 0,
-    N1 #= N - 1,
-    F #= N * F1,
-    n_factorial(N1, F1).
+:- use_module(library(format)).
 
 in(X, Min, Max) :-
     X #>= Min, X #=< Max.

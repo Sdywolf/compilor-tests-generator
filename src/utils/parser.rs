@@ -1,5 +1,5 @@
-use lalrpop_util::lalrpop_mod;
 use crate::utils::ast::Tree;
+use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(parser);
 

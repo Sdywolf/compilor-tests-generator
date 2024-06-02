@@ -1,14 +1,14 @@
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum Class {
     Def,
     Use,
-    Block
+    Block,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct Node {
-    pub id : i32, 
-    pub class : Class
+    pub id: i32,
+    pub class: Class,
 }
 
 #[derive(Clone)]

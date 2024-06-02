@@ -1,14 +1,23 @@
 mod utils;
-use utils::{parser, ast, dump};
-use std::io;
+
+use utils::parser;
+
+const ENGINE: &str = include_str!("../generator/gen.pl");
+
+const QUERY: &str = r#"
+main :- def_use(T, 3), portray_clause(T).
+:- initialization(main).
+"#;
 
 #[cfg(test)]
 mod tests;
 
 fn main() {
-    let mut input = String::new();
-    // io::stdin().read_line(&mut input).unwrap();
+    let code = format!("{ENGINE}\n{QUERY}");
+    let result = utils::engine::eval_code(&code);
+    // println!("{}", result);
     input = "t(n(0,def),nil,t(n(0,use),nil,nil))".to_string();
-    let tree = parser::get_tree(&input);
+    let tree = parser::get_tree(&result);
     dump::dump(&tree);
+    println!("{:?}", tree);
 }
