@@ -11,7 +11,7 @@ in(X, Min, Max) :-
 
 node(n(K, use), K).
 node(n(K, def), K).
-node(n(0, block), 0).
+node(n(K, block), K).
 
 tree(nil, 0, Ks, Ks).
 tree(t(V, L, R), N, [K| Ks], NKs) :-
@@ -51,9 +51,20 @@ def_use(T, N) :-
     Max #= N - 1, 
     fd_domain(Keys, 0, Max), 
     tree(T, N, Keys, []),
+    well_form(T),
     label(Keys), 
     foreach((vis(S,T), =(S, t(n(K, use), _, _))), 
         (vis(R,T), =(R, t(n(K, def), _, _)), vis(S, R))).
+
+well_form(nil).
+well_form(t(n(_, use), L, R)) :-
+    L = nil,
+    well_form(R).
+well_form(t(n(_, def), L, R)) :-
+    L = nil, 
+    well_form(R).
+well_form(t(n(_, block)), L, R) :-
+    well_form(L), well_form(R).
 
 % def_use(nil, _).
 % def_use(t(n(X, use), _, _), Xs) :-
