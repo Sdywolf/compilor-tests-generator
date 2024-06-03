@@ -6,5 +6,5 @@ fn test_parser() {
     let tree = utils::parser::get_tree(input);
     let s = SimpleAST::from_tree(tree);
     assert_eq!(s.len(), 1);
-    assert_eq!(s[0].to_string(), "{    decl x1;\n\n    use x1;\n\n}");
+    assert_eq!(s[0].to_string(), "{\n    decl x1;\n    use x1;\n}");
 }

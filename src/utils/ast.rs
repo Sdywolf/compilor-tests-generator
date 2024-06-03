@@ -13,7 +13,7 @@ pub struct Node {
 
 #[derive(Debug, Clone)]
 pub struct Tree {
-    pub node : Node, 
-    pub ltree : Option<Box<Tree> >, 
-    pub rtree : Option<Box<Tree> >
+    pub node: Node,
+    pub ltree: Option<Box<Tree>>,
+    pub rtree: Option<Box<Tree>>,
 }

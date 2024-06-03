@@ -44,14 +44,14 @@ impl Display for SimpleAST {
             SimpleAST::Decl(id) => write!(f, "decl x{};", id),
             SimpleAST::Use(id) => write!(f, "use x{};", id),
             SimpleAST::Loop(body) => {
-                write!(f, "loop {{")?;
+                writeln!(f, "loop {{")?;
                 for ast in body {
                     writeln!(f, "{}", Indent { inner: ast })?;
                 }
                 write!(f, "}}")
             }
             SimpleAST::Block(body) => {
-                write!(f, "{{")?;
+                writeln!(f, "{{")?;
                 for ast in body {
                     writeln!(f, "{}", Indent { inner: ast })?;
                 }
@@ -72,9 +72,14 @@ where
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let inner = format!("{}", self.inner);
-        for line in inner.split('\n') {
+        let lines = inner.split('\n').collect::<Vec<_>>();
+        if lines.is_empty() {
+            return Ok(());
+        }
+
+        for line in &lines[..lines.len() - 1] {
             writeln!(f, "    {}", line)?;
         }
-        Ok(())
+        write!(f, "    {}", lines[lines.len() - 1])
     }
 }
