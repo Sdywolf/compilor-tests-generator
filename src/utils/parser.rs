@@ -15,7 +15,7 @@ peg::parser! {
                 Some(Box::new(Tree { node, ltree, rtree }))
             }
 
-        rule node() -> Node = "n(" _ id:number() _ "," _ class:class() _ ")" {
+        rule node() -> Node = "n(" _ index:number() "," _ id:number() _ "," _ class:class() _ ")" {
             Node { id, class }
         }
 
